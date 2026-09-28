@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sunson Solar - Registration Form</title>
+</head>
+
+<body>
+
+    <h1>Sunson Solar Registration</h1>
+
+    <form action="<?= base_url('register') ?>" method="post">
+
+        <label>First Name:</label>
+        <input type="text" name="fname">
+
+        <br><br>
+
+        <label>Last Name:</label>
+        <input type="text" name="lname">
+
+        <br><br>
+
+        <label>Email:</label>
+        <input type="email" name="email">
+
+        <br><br>
+
+        <label>Username:</label>
+        <input type="text" name="username">
+
+        <br><br>
+
+        <label>Password:</label>
+        <input type="password" name="pass">
+
+        <br><br>
+
+        <button type="submit">Sign Up</button>
+
+    </form>
+
+</body>
+
+</html>
+
+
+<?php
+
+namespace App\Controllers;
+
+class Registration extends BaseController
+{
+    public function index()
+    {
+        return view('registration');
+    }
+}
+
+<?php
+
+use CodeIgniter\Router\RouteCollection;
+
+/** @var RouteCollection $routes */
+$routes->get('/', 'Home::index');
+$routes->get('/register', 'Registration::index');
