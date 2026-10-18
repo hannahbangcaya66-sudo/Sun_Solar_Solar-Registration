@@ -1,0 +1,1666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sunsun Solar | Power Your Future</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+:root {
+    --green: #286b43;
+    --dark-green: #17472f;
+    --yellow: #ffc928;
+    --cream: #fffdf3;
+    --text: #293b32;
+    --muted: #68796d;
+    --danger: #c0392b;
+}
+body {
+    font-family: Arial, sans-serif;
+    color: var(--text);
+    line-height: 1.6;
+}
+a { text-decoration: none; }
+button, input, textarea, select { font: inherit; }
+button { cursor: pointer; }
+section[id] { scroll-margin-top: 85px; }
+
+header {
+    padding: 14px 6%;
+    min-height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px #0000000d;
+    transition: box-shadow .25s;
+}
+header.scrolled { box-shadow: 0 6px 20px #0000001f; }
+.logo {
+    color: var(--green);
+    font-size: 23px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+.logo img { display: block; width: 220px; max-width: 38vw; height: auto; }
+.logo-fallback { display: none; color: var(--green); font-size: 22px; font-weight: bold; }
+.logo-fallback b { color: #edb500; }
+.logo span { color: #edb500; font-size: 30px; }
+.navbar { display: flex; align-items: center; gap: 20px; }
+.navbar a { color: var(--text); font-size: 13px; font-weight: bold; }
+.navbar a:hover, .navbar a.active { color: var(--green); }
+.menu-button { display: none; border: none; background: none; font-size: 28px; color: var(--green); }
+
+.btn {
+    display: inline-block;
+    padding: 12px 22px;
+    border: 2px solid transparent;
+    border-radius: 7px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+.green-btn { background: var(--green); color: white; border-color: var(--green); }
+.green-btn:hover { background: var(--dark-green); }
+.outline-btn { color: var(--green); border-color: var(--green); background: #ffffff99; }
+.yellow-btn { color: var(--dark-green); background: var(--yellow); }
+.btn.loading { position: relative; color: transparent !important; pointer-events: none; }
+.btn.loading::after {
+    content: ""; position: absolute; top: 50%; left: 50%;
+    width: 18px; height: 18px; margin: -9px 0 0 -9px;
+    border: 2px solid #ffffff66; border-top-color: #fff;
+    border-radius: 50%; animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.hero {
+    min-height: 570px;
+    padding: 65px 7% 110px;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+    gap: 25px;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: linear-gradient(#bde8ff, #e5f7ff 65%, #fff4c9);
+}
+.hero-content { max-width: 610px; position: relative; z-index: 5; }
+.eyebrow { color: var(--green); font-size: 12px; letter-spacing: 2px; font-weight: bold; }
+.hero h1 { color: #234733; font-size: clamp(36px, 4.5vw, 58px); line-height: 1.15; margin: 18px 0; }
+.hero h1 span { color: #d79500; }
+.hero-description { max-width: 500px; color: #405d51; margin-bottom: 25px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.hero-note { margin-top: 22px; color: var(--dark-green); font-size: 12px; font-weight: bold; }
+.sun { position: absolute; top: 45px; right: 13%; width: 95px; height: 95px; border-radius: 50%; background: #ffcf37; box-shadow: 0 0 40px #ffcc2a55; z-index: -1; }
+.cloud { position: absolute; width: 100px; height: 32px; border-radius: 40px; background: white; z-index: -1; }
+.cloud:before, .cloud:after { content: ""; position: absolute; background: inherit; border-radius: 50%; }
+.cloud:before { width: 43px; height: 43px; top: -20px; left: 15px; }
+.cloud:after { width: 55px; height: 52px; top: -27px; right: 12px; }
+.cloud-one { top: 100px; right: 28%; }
+.cloud-two { top: 220px; right: 5%; transform: scale(.7); }
+.cloud-three { top: 45px; right: 42%; transform: scale(.55); }
+.bird { position: absolute; color: #49675b; font-size: 32px; z-index: 1; transform: rotate(-20deg); }
+.bird-one { top: 120px; right: 38%; }
+.bird-two { top: 155px; right: 34%; font-size: 24px; }
+.hero-art { position: relative; height: 330px; z-index: 2; }
+.art-sun { position: absolute; top: 0; right: 10%; color: #ffbd18; font-size: 50px; }
+.art-cloud { position: absolute; top: 65px; left: 15%; width: 90px; height: 25px; background: white; border-radius: 30px; }
+.art-cloud:before, .art-cloud:after { content: ""; position: absolute; background: white; border-radius: 50%; }
+.art-cloud:before { width: 35px; height: 35px; top: -18px; left: 15px; }
+.art-cloud:after { width: 40px; height: 40px; top: -22px; right: 12px; }
+.solar-house { position: absolute; width: 230px; height: 180px; left: 50%; bottom: 65px; transform: translateX(-50%); z-index: 3; }
+.roof { position: absolute; top: 0; width: 0; height: 0; border-left: 115px solid transparent; border-right: 115px solid transparent; border-bottom: 80px solid #a96c42; }
+.house { position: absolute; top: 80px; left: 20px; width: 190px; height: 100px; background: #fff8e6; border: 2px solid #c49b70; }
+.panel-roof { position: absolute; top: -62px; left: 46px; width: 100px; height: 45px; background: #245778; border: 3px solid white; transform: skewY(-22deg); display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); }
+.panel-roof span { border: 1px solid #94cde9; }
+.window { position: absolute; top: 18px; width: 35px; height: 32px; background: #91d6ef; border: 4px solid white; }
+.window-left { left: 12px; }
+.window-right { right: 12px; }
+.door { position: absolute; bottom: 0; left: 75px; width: 38px; height: 55px; background: #9b6b45; }
+.art-tree { position: absolute; bottom: 90px; color: #367747; font-size: 70px; z-index: 4; }
+.tree-left { left: 4%; }
+.tree-right { right: 2%; font-size: 85px; }
+.art-hill { position: absolute; bottom: 0; left: -10%; width: 120%; height: 130px; border-radius: 50% 50% 0 0; }
+.hill-one { background: #8dc98a; }
+.hill-two { height: 85px; bottom: -30px; background: #4d965d; }
+.hill { position: absolute; left: -10%; width: 120%; border-radius: 50% 50% 0 0; z-index: -1; }
+.hill-back { height: 150px; bottom: -80px; background: #8dc98a; transform: rotate(-3deg); }
+.hill-front { height: 110px; bottom: -70px; background: #438858; transform: rotate(3deg); }
+
+.section { padding: 75px 7%; }
+.section-heading { max-width: 700px; text-align: center; margin: 0 auto 38px; }
+.section-heading h2, .about-content h2 { color: var(--dark-green); font-size: clamp(28px, 3.5vw, 40px); line-height: 1.25; margin: 12px 0; }
+.section-heading > p:last-child { color: var(--muted); }
+
+.benefits { background: white; }
+.benefit-grid, .service-grid, .testimonial-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+.benefit-card, .service-card, .testimonial-card { padding: 27px; border: 1px solid #e2eae2; border-radius: 13px; background: white; transition: transform .2s, box-shadow .2s; }
+.benefit-card { text-align: center; }
+.benefit-card:hover, .service-card:hover, .testimonial-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px #1e502d17; }
+.feature-icon { display: inline-grid; place-items: center; width: 62px; height: 62px; border-radius: 50%; background: #eaf5e8; color: var(--green); font-size: 30px; margin-bottom: 12px; }
+.benefit-card h3, .service-card h3 { color: var(--green); margin-bottom: 10px; }
+.benefit-card p, .service-card p { color: var(--muted); font-size: 14px; }
+
+.stats { background: linear-gradient(135deg, var(--dark-green), var(--green)); color: white; padding: 55px 7%; }
+.stats-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 24px; text-align: center; }
+.stat-number { font-size: clamp(30px, 4vw, 44px); font-weight: bold; color: var(--yellow); font-variant-numeric: tabular-nums; }
+.stat-label { font-size: 13px; opacity: .92; margin-top: 4px; }
+.stats-note { text-align: center; font-size: 11px; opacity: .7; margin-top: 18px; }
+
+.about { display: grid; grid-template-columns: 1fr 1fr; gap: 55px; align-items: center; background: var(--cream); }
+.about-content > p:not(.eyebrow) { color: var(--muted); margin-bottom: 16px; }
+.about-illustration { min-height: 320px; position: relative; overflow: hidden; border-radius: 16px; background: linear-gradient(#bde8ff, #f1fbdc); }
+.about-sun { position: absolute; top: 20px; right: 28px; color: #f7bf25; font-size: 50px; }
+.about-cloud { position: absolute; top: 75px; left: 35px; width: 85px; height: 25px; background: white; border-radius: 30px; }
+.about-cloud:before { content: ""; position: absolute; top: -20px; left: 15px; width: 40px; height: 40px; background: white; border-radius: 50%; }
+.about-house { position: absolute; width: 190px; height: 160px; left: 50%; bottom: 55px; transform: translateX(-50%); z-index: 2; }
+.about-roof { position: absolute; top: 0; border-left: 95px solid transparent; border-right: 95px solid transparent; border-bottom: 65px solid #9b6948; }
+.about-house-body { position: absolute; top: 65px; left: 15px; width: 160px; height: 95px; background: #fff7e5; }
+.about-panel { position: absolute; top: -44px; left: 35px; width: 90px; height: 32px; background: repeating-linear-gradient(90deg, #1f4d75 0 25px, #8dc5e4 26px 29px); transform: skewY(-20deg); }
+.about-door { position: absolute; bottom: 0; left: 62px; width: 32px; height: 55px; background: #a6784e; }
+.about-window { position: absolute; top: 12px; right: 10px; width: 30px; height: 28px; background: #92d9ed; border: 3px solid white; }
+.about-hill { position: absolute; bottom: -60px; left: -10%; width: 120%; height: 130px; background: #70b16c; border-radius: 50%; }
+
+.services { background: white; }
+.service-icon { font-size: 38px; color: #e0a600; }
+.service-card h3 { margin-top: 12px; }
+.service-card a { display: inline-block; margin-top: 18px; color: var(--green); font-size: 14px; font-weight: bold; }
+
+.testimonials { background: #f4f8f1; }
+.stars { color: #e6a800; letter-spacing: 3px; margin-bottom: 12px; }
+.testimonial-card > p:not(.stars) { color: var(--muted); font-size: 14px; margin-bottom: 18px; }
+.testimonial-card h3 { color: var(--green); font-size: 16px; }
+.testimonial-card span { color: var(--muted); font-size: 12px; }
+.demo-note { text-align: center; color: var(--muted); font-size: 12px; margin-top: 25px; }
+
+.cta { padding: 60px 7%; text-align: center; background: var(--green); color: white; }
+.cta-sun { font-size: 42px; color: var(--yellow); }
+.cta h2 { font-size: clamp(26px, 4vw, 37px); margin: 8px 0; }
+.cta p { margin-bottom: 23px; color: #e2efe4; }
+
+.quote, .contact { background: var(--cream); }
+.form-card { max-width: 650px; margin: auto; padding: 30px; background: white; border: 1px solid #e2eae2; border-radius: 13px; }
+.form-card label, .login-form label { display: block; margin: 14px 0 6px; font-size: 14px; font-weight: bold; }
+.form-card input, .form-card select, .form-card textarea, .login-form input {
+    width: 100%; padding: 12px; border: 1px solid #d5dfd7; border-radius: 7px; outline: none; background: white;
+}
+.form-card input:focus, .form-card select:focus, .form-card textarea:focus, .login-form input:focus { border-color: var(--green); }
+.form-card textarea { resize: vertical; }
+.full-button { width: 100%; margin-top: 20px; }
+.notice { margin-top: 12px; color: var(--green); font-size: 13px; overflow-wrap: anywhere; }
+
+/* ---- enhanced form UI ---- */
+.field-error { color: var(--danger); font-size: 12px; margin-top: 4px; min-height: 14px; display: block; }
+input.invalid, select.invalid, textarea.invalid { border-color: var(--danger) !important; background: #fff5f5; }
+.pw-box { position: relative; }
+.pw-box input { padding-right: 72px; }
+.pw-toggle { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); border: none; background: #eef5ee; color: var(--green); font-size: 12px; font-weight: bold; cursor: pointer; padding: 5px 9px; border-radius: 5px; }
+.pw-strength { margin-top: 8px; }
+.pw-strength-bar { height: 6px; border-radius: 3px; background: #e5eae5; overflow: hidden; }
+.pw-strength-fill { height: 100%; width: 0; transition: width .3s, background .3s; background: #e0a600; }
+.pw-strength-label { font-size: 12px; margin-top: 4px; color: var(--muted); }
+.char-count { text-align: right; font-size: 11px; color: var(--muted); margin-top: 3px; }
+.char-count.over { color: var(--danger); font-weight: bold; }
+.age-display { font-size: 12px; color: var(--green); margin-top: 6px; font-weight: bold; }
+.age-display.bad { color: var(--danger); }
+.remember-row { display: flex; align-items: center; gap: 8px; margin-top: 14px; font-size: 13px; }
+.remember-row input { width: auto; }
+.remember-row label { margin: 0 !important; font-weight: normal !important; }
+
+.estimate-result { display: none; margin-top: 22px; padding: 20px; border-radius: 10px; background: #eef7ee; border: 1px solid #cfe3cf; }
+.estimate-result.show { display: block; animation: toastIn .35s ease; }
+.estimate-result h4 { color: var(--dark-green); margin-bottom: 12px; }
+.estimate-result h4 small { font-weight: normal; color: var(--muted); font-size: 11px; }
+.estimate-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
+.estimate-item { background: white; padding: 12px 8px; border-radius: 8px; text-align: center; }
+.estimate-item .v { font-size: 19px; font-weight: bold; color: var(--green); font-variant-numeric: tabular-nums; }
+.estimate-item .l { font-size: 11px; color: var(--muted); margin-top: 3px; }
+.estimate-note { font-size: 11px; color: var(--muted); margin-top: 10px; }
+
+.faq { background: white; }
+.faq-list { max-width: 800px; margin: auto; }
+.faq-list details { padding: 18px 20px; border: 1px solid #e2eae2; border-radius: 8px; margin-bottom: 12px; }
+.faq-list summary { cursor: pointer; color: var(--green); font-weight: bold; }
+.faq-list details p { color: var(--muted); margin-top: 12px; font-size: 14px; }
+
+.footer { padding: 45px 7% 20px; background: #173e2b; color: #e3eee5; }
+.footer-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1.4fr; gap: 28px; }
+.footer-logo { display: inline-block; color: #ffda52; font-size: 22px; font-weight: bold; margin-bottom: 10px; }
+.footer-grid h3 { font-size: 15px; margin-bottom: 12px; color: white; }
+.footer-grid p, .footer-grid a:not(.footer-logo) { display: block; color: #d3e1d5; font-size: 13px; margin-bottom: 8px; overflow-wrap: anywhere; }
+.social-links { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px; }
+.footer-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 15px; border-top: 1px solid #446651; padding-top: 18px; margin-top: 35px; font-size: 12px; }
+.footer-bottom section { display: flex; flex-wrap: wrap; gap: 18px; }
+.footer-bottom a { color: #e3eee5; }
+.legal-note { margin-top: 12px; font-size: 11px; color: #b7c9bb; }
+
+.user-chip { display: flex; align-items: center; gap: 10px; }
+.user-chip[hidden] { display: none !important; }
+.user-chip .who { font-size: 13px; color: var(--text); font-weight: bold; text-align: right; line-height: 1.25; }
+.user-chip .who small { display: block; color: var(--muted); font-weight: normal; }
+
+.registration-dialog { width: min(650px, calc(100% - 28px)); }
+.registration-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 14px; }
+.registration-grid .wide-field { grid-column: 1 / -1; }
+.registration-grid label { display: block; margin: 12px 0 6px; font-size: 14px; font-weight: bold; }
+.registration-grid input, .registration-grid select, .registration-grid textarea {
+    width: 100%; padding: 11px; border: 1px solid #d5dfd7; border-radius: 7px; background: white;
+}
+.registration-grid input:focus, .registration-grid select:focus, .registration-grid textarea:focus { outline: none; border-color: var(--green); }
+
+.dialog {
+    width: min(440px, calc(100% - 28px));
+    max-height: 90vh; overflow-y: auto; padding: 32px;
+    border: none; border-radius: 15px; margin: auto;
+    box-shadow: 0 15px 50px #0003; position: relative;
+}
+.dialog.wide { width: min(760px, calc(100% - 28px)); }
+.dialog::backdrop { background: #122c1d99; }
+.close-button { position: absolute; top: 10px; right: 17px; border: none; background: transparent; font-size: 30px; color: var(--muted); z-index: 5; }
+.dialog-sun { display: block; text-align: center; color: #e5ad00; font-size: 40px; }
+.dialog h2 { text-align: center; color: var(--green); font-size: 23px; }
+.dialog-description { text-align: center; font-size: 13px; color: var(--muted); margin: 6px 0 20px; }
+.login-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 5px; border-radius: 8px; background: #edf4ec; }
+.tab { padding: 10px 5px; border: none; border-radius: 6px; background: transparent; color: var(--green); font-size: 12px; font-weight: bold; }
+.tab.active { background: var(--green); color: white; }
+.login-form { margin-top: 15px; }
+.register-prompt { margin-top: 17px; text-align: center; font-size: 13px; color: var(--muted); }
+.text-button { border: none; background: transparent; color: var(--green); font-weight: bold; text-decoration: underline; cursor: pointer; }
+.employee-note { margin-top: 15px; padding: 12px; border-radius: 7px; background: #f1f6ed; color: #4f6854; font-size: 12px; }
+
+.dashboard-body h3 { color: var(--dark-green); margin: 20px 0 10px; font-size: 16px; }
+.profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; font-size: 13px; background: #f6faf5; padding: 14px; border-radius: 9px; }
+.profile-grid b { color: var(--green); }
+.profile-grid .full { grid-column: 1 / -1; }
+.history-item { border: 1px solid #e2eae2; border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; font-size: 13px; }
+.history-item .meta { color: var(--muted); font-size: 11px; margin-top: 4px; }
+.history-item .sub { color: var(--muted); font-size: 12px; margin-top: 2px; }
+.empty-state { color: var(--muted); font-size: 13px; font-style: italic; padding: 10px 0; }
+
+.toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; max-width: 320px; }
+.toast { padding: 14px 18px; border-radius: 9px; color: white; font-size: 13px; box-shadow: 0 8px 24px #0003; animation: toastIn .3s ease; opacity: .97; }
+.toast.success { background: #2e7d46; }
+.toast.error { background: var(--danger); }
+.toast.info { background: #2c5f7a; }
+@keyframes toastIn { from { transform: translateX(40px); opacity: 0; } to { transform: none; opacity: .97; } }
+
+.back-to-top {
+    position: fixed; bottom: 24px; left: 24px; width: 46px; height: 46px;
+    border-radius: 50%; border: none; background: var(--green); color: white;
+    cursor: pointer; opacity: 0; pointer-events: none; transition: opacity .3s, transform .3s;
+    box-shadow: 0 6px 18px #0003; z-index: 90; display: grid; place-items: center;
+}
+.back-to-top.show { opacity: 1; pointer-events: auto; }
+.back-to-top:hover { background: var(--dark-green); transform: translateY(-3px); }
+
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+@media (max-width: 1050px) {
+    header { padding-left: 4%; padding-right: 4%; }
+    .navbar { gap: 12px; }
+    .navbar a { font-size: 12px; }
+    .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+    header { flex-wrap: wrap; padding: 12px 5%; }
+    .menu-button { display: block; }
+    .navbar { display: none; width: 100%; flex-direction: column; align-items: stretch; gap: 8px; padding: 12px 0; }
+    .navbar.show { display: flex; }
+    .navbar a { padding: 9px; font-size: 14px; }
+    .navbar .btn { width: 100%; }
+    .user-chip { width: 100%; justify-content: space-between; }
+    .hero { grid-template-columns: 1fr; padding: 55px 6% 100px; gap: 0; }
+    .hero h1 { font-size: clamp(35px, 8vw, 49px); }
+    .hero-art { height: 300px; margin-top: 10px; }
+    .sun { width: 70px; height: 70px; right: 8%; top: 25px; }
+    .cloud-one { right: 18%; }
+    .cloud-two { right: -5%; }
+    .cloud-three { display: none; }
+    .benefit-grid, .service-grid, .testimonial-grid, .about { grid-template-columns: 1fr; }
+    .about { gap: 30px; }
+    .section { padding: 55px 6%; }
+    .about-illustration { min-height: 280px; }
+    .form-card { padding: 22px; }
+    .stats-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 25px 18px; }
+    .footer-bottom { flex-direction: column; }
+    .toast-container { left: 16px; right: 16px; max-width: none; }
+    .profile-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+    .registration-grid { grid-template-columns: 1fr; }
+    .registration-grid .wide-field { grid-column: auto; }
+    .logo img { max-width: 220px; }
+}
+@media (max-width: 430px) {
+    .logo { font-size: 20px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-art { transform: scale(.9); transform-origin: top center; margin-bottom: -20px; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .dialog { padding: 26px 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+<header id="siteHeader">
+    <a href="#home" class="logo" aria-label="Sunsun Solar Home">
+        <img src="Media.jpg" alt="Sunsun Solar Logo" onerror="this.style.display='none';document.getElementById('logoFallback').style.display='inline-block';">
+        <span id="logoFallback" class="logo-fallback">Sun<b>sun</b> Solar</span>
+    </a>
+    <button class="menu-button" id="menuButton" aria-label="Toggle navigation">&#9776;</button>
+    <nav class="navbar" id="navbar">
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#about">About Us</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#faq">FAQs</a>
+        <a href="#contact">Contact</a>
+        <button class="btn green-btn" id="openLogin">Login</button>
+        <span class="user-chip" id="userChip" hidden>
+            <span class="who"><span id="userChipName">User</span><small id="userChipRole">Customer</small></span>
+            <button class="btn outline-btn" id="openDashboard" type="button">Dashboard</button>
+            <button class="btn green-btn" id="logoutBtn" type="button">Logout</button>
+        </span>
+    </nav>
+</header>
+
+<main>
+<section class="hero" id="home">
+    <span class="sun"></span>
+    <span class="cloud cloud-one"></span>
+    <span class="cloud cloud-two"></span>
+    <span class="cloud cloud-three"></span>
+    <span class="bird bird-one">&#8961;</span>
+    <span class="bird bird-two">&#8961;</span>
+    <section class="hero-content">
+        <p class="eyebrow">A BRIGHTER WAY TO POWER YOUR HOME</p>
+        <h1>Power Your Future<br>With <span>Solar Energy</span></h1>
+        <p class="hero-description">
+            Discover smarter energy with Sunsun Solar.
+            Save on electricity costs, support a cleaner planet,
+            and take greater control of your energy future.
+        </p>
+        <section class="hero-actions">
+            <a href="#quote" class="btn green-btn">Get a Free Quote</a>
+            <a href="#services" class="btn outline-btn">Explore Services</a>
+        </section>
+        <p class="hero-note">&#9728; Clean Energy &middot; Greener Living &middot; Brighter Future</p>
+    </section>
+    <section class="hero-art">
+        <span class="art-sun">&#9728;</span>
+        <span class="art-cloud"></span>
+        <section class="solar-house">
+            <span class="roof"></span>
+            <section class="house">
+                <span class="panel-roof">
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                </span>
+                <span class="window window-left"></span>
+                <span class="door"></span>
+                <span class="window window-right"></span>
+            </section>
+        </section>
+        <span class="art-tree tree-left">&#9827;</span>
+        <span class="art-tree tree-right">&#9827;</span>
+        <span class="art-hill hill-one"></span>
+        <span class="art-hill hill-two"></span>
+    </section>
+    <span class="hill hill-back"></span>
+    <span class="hill hill-front"></span>
+</section>
+
+<section class="benefits section">
+    <section class="section-heading reveal">
+        <p class="eyebrow">WHY CHOOSE SOLAR?</p>
+        <h2>A Brighter Choice for Everyone</h2>
+        <p>Enjoy the benefits of a cleaner and smarter energy source.</p>
+    </section>
+    <section class="benefit-grid">
+        <article class="benefit-card reveal">
+            <span class="feature-icon">&#8369;</span>
+            <h3>Save on Energy Bills</h3>
+            <p>Solar power may help reduce electricity bills and improve long-term energy savings.</p>
+        </article>
+        <article class="benefit-card reveal">
+            <span class="feature-icon">&#127793;</span>
+            <h3>Clean and Sustainable</h3>
+            <p>Use sunlight as a renewable energy source and help reduce reliance on fossil fuels.</p>
+        </article>
+        <article class="benefit-card reveal">
+            <span class="feature-icon">&#9889;</span>
+            <h3>Energy Independence</h3>
+            <p>Generate some of your own electricity and gain more control over energy use.</p>
+        </article>
+    </section>
+</section>
+
+<section class="stats" id="stats">
+    <div class="stats-grid">
+        <div><div class="stat-number" data-target="500" data-suffix="+">0</div><div class="stat-label">Homes Powered</div></div>
+        <div><div class="stat-number" data-target="1.2" data-decimal="1" data-suffix=" MW">0</div><div class="stat-label">Capacity Installed</div></div>
+        <div><div class="stat-number" data-target="25" data-suffix=" yrs">0</div><div class="stat-label">Panel Warranty</div></div>
+        <div><div class="stat-number" data-target="4.9" data-decimal="1" data-suffix="/5">0</div><div class="stat-label">Customer Rating</div></div>
+    </div>
+    <p class="stats-note">Sample figures for demo — replace with real company data before publishing.</p>
+</section>
+
+<section class="about section" id="about">
+    <section class="about-illustration reveal">
+        <span class="about-sun">&#9728;</span>
+        <span class="about-cloud"></span>
+        <section class="about-house">
+            <span class="about-roof"></span>
+            <section class="about-house-body">
+                <span class="about-panel"></span>
+                <span class="about-door"></span>
+                <span class="about-window"></span>
+            </section>
+        </section>
+        <span class="about-hill"></span>
+    </section>
+    <section class="about-content reveal">
+        <p class="eyebrow">GET TO KNOW US</p>
+        <h2>Helping You Move Toward a Greener Future</h2>
+        <p>
+            Sunsun Solar is dedicated to helping customers explore
+            solar energy solutions for their homes and businesses.
+            We aim to make solar energy easier to understand so
+            customers can make informed decisions.
+        </p>
+        <p>
+            From learning about solar systems to requesting a
+            consultation, we want to help you discover an energy
+            solution that fits your needs.
+        </p>
+        <a href="#contact" class="btn green-btn">Contact Our Team</a>
+    </section>
+</section>
+
+<section class="services section" id="services">
+    <section class="section-heading reveal">
+        <p class="eyebrow">OUR SERVICES</p>
+        <h2>Solar Solutions for Your Needs</h2>
+        <p>Explore our services and learn which option may suit you.</p>
+    </section>
+    <section class="service-grid">
+        <article class="service-card reveal">
+            <span class="service-icon">&#8962;</span>
+            <h3>Residential Solar</h3>
+            <p>Explore solar energy systems designed for household electricity needs.</p>
+            <a href="#quote">Request Information &rarr;</a>
+        </article>
+        <article class="service-card reveal">
+            <span class="service-icon">&#9638;</span>
+            <h3>Solar Installation</h3>
+            <p>Learn about solar panel installation and the steps involved in planning a system.</p>
+            <a href="#quote">Request Information &rarr;</a>
+        </article>
+        <article class="service-card reveal">
+            <span class="service-icon">&#9728;</span>
+            <h3>Solar Consultation</h3>
+            <p>Discuss your energy needs and explore possible solar solutions with our team.</p>
+            <a href="#quote">Book a Consultation &rarr;</a>
+        </article>
+    </section>
+</section>
+
+<section class="testimonials section" id="testimonials">
+    <section class="section-heading reveal">
+        <p class="eyebrow">CUSTOMER STORIES</p>
+        <h2>What Our Customers Say</h2>
+        <p>Customer feedback helps others make informed decisions.</p>
+    </section>
+    <section class="testimonial-grid">
+        <article class="testimonial-card reveal">
+            <p class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            <p>"The team explained the solar process clearly and helped me understand my options."</p>
+            <h3>Sample Customer</h3>
+            <span>Homeowner</span>
+        </article>
+        <article class="testimonial-card reveal">
+            <p class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            <p>"I wanted to learn more about renewable energy. The consultation helped me understand the basics."</p>
+            <h3>Sample Customer</h3>
+            <span>Residential Customer</span>
+        </article>
+        <article class="testimonial-card reveal">
+            <p class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            <p>"It was helpful to discuss my household energy needs before deciding what to do next."</p>
+            <h3>Sample Customer</h3>
+            <span>Prospective Customer</span>
+        </article>
+    </section>
+    <p class="demo-note">These are sample testimonials. Replace them with real customer feedback before publishing.</p>
+</section>
+
+<section class="cta">
+    <span class="cta-sun">&#9728;</span>
+    <h2>Ready to Explore Solar Energy?</h2>
+    <p>Tell us what you need and request a free quote.</p>
+    <a href="#quote" class="btn yellow-btn">Request a Free Quote</a>
+</section>
+
+<section class="quote section" id="quote">
+    <section class="section-heading reveal">
+        <p class="eyebrow">LET'S GET STARTED</p>
+        <h2>Request a Free Quote</h2>
+        <p>Share your details and energy needs with us. Add your monthly bill for a live rough estimate.</p>
+    </section>
+    <form id="quoteForm" class="form-card reveal" novalidate>
+        <label for="quoteName">Full Name *</label>
+        <input id="quoteName" type="text" placeholder="Enter your full name" required>
+        <label for="quoteEmail">Email Address *</label>
+        <input id="quoteEmail" type="email" placeholder="Enter your email" required>
+        <label for="quotePhone">Contact Number *</label>
+        <input id="quotePhone" type="tel" placeholder="e.g. 0917 123 4567" required>
+        <label for="propertyType">Property Type *</label>
+        <select id="propertyType" required>
+            <option value="">Select property type</option>
+            <option>Residential Home</option>
+            <option>Commercial Building</option>
+            <option>Other</option>
+        </select>
+        <label for="monthlyBill">Monthly Electricity Bill (&#8369;) <small style="font-weight:normal;color:var(--muted)">(for a rough estimate)</small></label>
+        <input id="monthlyBill" type="number" min="0" step="100" placeholder="e.g. 3500">
+        <label for="sunlightHours">Average Sunlight Hours / Day</label>
+        <select id="sunlightHours">
+            <option value="">Select hours</option>
+            <option value="3">3 hours (shaded area)</option>
+            <option value="4">4 hours</option>
+            <option value="5" selected>5 hours (typical PH)</option>
+            <option value="6">6 hours</option>
+            <option value="7">7 hours (very sunny)</option>
+        </select>
+        <label for="roofType">Roof Type</label>
+        <select id="roofType">
+            <option value="">Select roof type</option>
+            <option value="metal">Metal Sheet</option>
+            <option value="concrete">Concrete / Tile</option>
+            <option value="clay">Clay Tile</option>
+            <option value="other">Other</option>
+        </select>
+        <label for="quoteMessage">Tell Us About Your Needs</label>
+        <textarea id="quoteMessage" rows="4" maxlength="500" placeholder="Describe your solar energy needs"></textarea>
+        <div class="char-count" data-for="quoteMessage">0 / 500</div>
+        <div id="estimateResult" class="estimate-result"></div>
+        <button type="submit" class="btn green-btn full-button" id="quoteSubmit">Submit Quote Request</button>
+        <p id="quoteNotice" class="notice" aria-live="polite"></p>
+    </form>
+</section>
+
+<section class="faq section" id="faq">
+    <section class="section-heading reveal">
+        <p class="eyebrow">NEED HELP?</p>
+        <h2>Frequently Asked Questions</h2>
+    </section>
+    <section class="faq-list">
+        <details>
+            <summary>How does solar energy work?</summary>
+            <p>Solar panels convert sunlight into electricity. The system design determines how the electricity is used and whether additional equipment is needed.</p>
+        </details>
+        <details>
+            <summary>Can solar panels help lower electricity bills?</summary>
+            <p>They may reduce electricity costs depending on your energy use, system size, sunlight, installation cost, and your electricity provider's rules.</p>
+        </details>
+        <details>
+            <summary>Do solar panels work on cloudy days?</summary>
+            <p>Yes. Solar panels can still generate electricity in cloudy conditions, but usually produce less power than on sunny days.</p>
+        </details>
+        <details>
+            <summary>How can I get a solar quote?</summary>
+            <p>Complete the quote request form on this page. Your request is saved locally in this demo and visible in your dashboard if you are logged in.</p>
+        </details>
+        <details>
+            <summary>How do employees get an account?</summary>
+            <p>Employee accounts are created by authorized HR personnel or administrators. Employees cannot register their own accounts. Demo login: EMP001 / sunsun123</p>
+        </details>
+    </section>
+</section>
+
+<section class="contact section" id="contact">
+    <section class="section-heading reveal">
+        <p class="eyebrow">CONTACT SUNSUN SOLAR</p>
+        <h2>How Can We Help You?</h2>
+        <p>Send a message to ask about our solar solutions.</p>
+    </section>
+    <form id="contactForm" class="form-card reveal" novalidate>
+        <label for="contactName">Full Name *</label>
+        <input id="contactName" type="text" placeholder="Your name" required>
+        <label for="contactEmail">Email Address *</label>
+        <input id="contactEmail" type="email" placeholder="Your email" required>
+        <label for="contactSubject">Subject *</label>
+        <input id="contactSubject" type="text" placeholder="How can we help?" required>
+        <label for="contactMessage">Message *</label>
+        <textarea id="contactMessage" rows="4" maxlength="500" placeholder="Write your message" required></textarea>
+        <div class="char-count" data-for="contactMessage">0 / 500</div>
+        <button type="submit" class="btn green-btn full-button" id="contactSubmit">Send Message</button>
+        <p id="contactNotice" class="notice" aria-live="polite"></p>
+    </form>
+</section>
+</main>
+
+<footer class="footer">
+    <section class="footer-grid">
+        <section>
+            <a href="#home" class="footer-logo">&#9728; Sunsun Solar</a>
+            <p>Powering a brighter and greener future.</p>
+        </section>
+        <section>
+            <h3>Quick Links</h3>
+            <a href="#home">Home</a>
+            <a href="#about">About Us</a>
+            <a href="#services">Services</a>
+            <a href="#testimonials">Testimonials</a>
+        </section>
+        <section>
+            <h3>Customer Support</h3>
+            <a href="#faq">FAQs</a>
+            <a href="#quote">Free Quote</a>
+            <a href="#contact">Contact Us</a>
+        </section>
+        <section>
+            <h3>Contact Information</h3>
+            <p>Email: info@sunsunsolar.example</p>
+            <p>Phone: Add your company number</p>
+            <p>Address: Add your business address</p>
+            <section class="social-links">
+                <a href="#contact">Facebook</a>
+                <a href="#contact">Instagram</a>
+            </section>
+        </section>
+    </section>
+    <section class="footer-bottom">
+        <p>&copy; <span id="currentYear"></span> Sunsun Solar. All rights reserved.</p>
+        <section>
+            <a href="#privacy">Privacy Policy</a>
+            <a href="#terms">Terms and Conditions</a>
+        </section>
+    </section>
+    <p class="legal-note">
+        Complete the company contact details and legal policies before publishing.
+        This demo stores all data in your browser's localStorage only.
+    </p>
+</footer>
+
+<button id="backToTop" class="back-to-top" aria-label="Back to top">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+</button>
+<div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+<dialog id="loginDialog" class="dialog">
+    <button type="button" id="closeLogin" class="close-button" aria-label="Close login">&times;</button>
+    <span class="dialog-sun">&#9728;</span>
+    <h2>Welcome to Sunsun Solar</h2>
+    <p class="dialog-description">Choose your account type to continue.</p>
+    <section class="login-tabs">
+        <button type="button" class="tab active" data-tab="customer">Customer Login</button>
+        <button type="button" class="tab" data-tab="employee">Employee Login</button>
+    </section>
+
+    <form id="customerLoginForm" class="login-form" novalidate>
+        <label for="customerEmail">Email or Username</label>
+        <input type="text" id="customerEmail" placeholder="Enter your email or username" required>
+        <label for="customerPassword">Password</label>
+        <div class="pw-box">
+            <input type="password" id="customerPassword" placeholder="Enter your password" required autocomplete="current-password">
+            <button type="button" class="pw-toggle" data-target="customerPassword">Show</button>
+        </div>
+        <div class="remember-row">
+            <input type="checkbox" id="customerRemember">
+            <label for="customerRemember">Remember me for 7 days</label>
+        </div>
+        <button type="submit" class="btn green-btn full-button" id="customerLoginBtn">Customer Login</button>
+        <p id="customerLoginNotice" class="notice" aria-live="polite"></p>
+        <p class="register-prompt">
+            Don't have an account?
+            <button type="button" class="text-button" id="openRegister">Sign Up</button>
+        </p>
+    </form>
+
+    <form id="employeeLoginForm" class="login-form" hidden novalidate>
+        <label for="employeeId">Employee ID</label>
+        <input type="text" id="employeeId" placeholder="Enter your employee ID" required>
+        <label for="employeePassword">Password</label>
+        <div class="pw-box">
+            <input type="password" id="employeePassword" placeholder="Enter your password" required autocomplete="current-password">
+            <button type="button" class="pw-toggle" data-target="employeePassword">Show</button>
+        </div>
+        <div class="remember-row">
+            <input type="checkbox" id="employeeRemember">
+            <label for="employeeRemember">Remember me for 7 days</label>
+        </div>
+        <button type="submit" class="btn green-btn full-button" id="employeeLoginBtn">Employee Login</button>
+        <p id="employeeLoginNotice" class="notice" aria-live="polite"></p>
+        <p class="employee-note">
+            Employee accounts are created by HR or an administrator.
+            Public employee registration is not available.<br>
+            <b>Demo account:</b> EMP001 &nbsp;/&nbsp; sunsun123
+        </p>
+    </form>
+</dialog>
+
+<dialog id="registerDialog" class="dialog registration-dialog">
+    <button type="button" id="closeRegister" class="close-button" aria-label="Close registration">&times;</button>
+    <img src="Media.jpg" alt="Sunsun Solar Logo" onerror="this.style.display='none'"
+         style="display:block;width:100%;max-width:300px;height:auto;margin:0 auto 15px;">
+    <h2>Create Customer Account</h2>
+    <p class="dialog-description">Complete the form below to register with Sunsun Solar. You must be at least 18 years old.</p>
+    <form id="registerForm" class="login-form" novalidate>
+        <section class="registration-grid">
+            <section>
+                <label for="registerFirstName">First Name *</label>
+                <input type="text" id="registerFirstName" name="firstName" placeholder="Enter first name" autocomplete="given-name" required>
+            </section>
+            <section>
+                <label for="registerMiddleName">Middle Name</label>
+                <input type="text" id="registerMiddleName" name="middleName" placeholder="Enter middle name" autocomplete="additional-name">
+            </section>
+            <section class="wide-field">
+                <label for="registerLastName">Last Name *</label>
+                <input type="text" id="registerLastName" name="lastName" placeholder="Enter last name" autocomplete="family-name" required>
+            </section>
+            <section class="wide-field">
+                <label for="registerEmail">Email Address *</label>
+                <input type="email" id="registerEmail" name="email" placeholder="example@email.com" autocomplete="email" required>
+            </section>
+            <section class="wide-field">
+                <label for="registerPhone">Phone Number * <small style="font-weight:normal">(PH format: 09XX XXX XXXX)</small></label>
+                <input type="tel" id="registerPhone" name="phone" placeholder="0917 123 4567" autocomplete="tel" required>
+            </section>
+            <section class="wide-field">
+                <label for="registerUsername">Username * <small style="font-weight:normal">(min. 3 characters)</small></label>
+                <input type="text" id="registerUsername" name="username" placeholder="Create a username" autocomplete="username" required>
+            </section>
+            <section class="wide-field">
+                <label for="registerPassword">Password * <small style="font-weight:normal">(min. 8 characters)</small></label>
+                <div class="pw-box">
+                    <input type="password" id="registerPassword" name="password" minlength="8" placeholder="At least 8 characters" autocomplete="new-password" required>
+                    <button type="button" class="pw-toggle" data-target="registerPassword">Show</button>
+                </div>
+                <div class="pw-strength">
+                    <div class="pw-strength-bar"><div class="pw-strength-fill" id="pwFill"></div></div>
+                    <div class="pw-strength-label" id="pwLabel"></div>
+                </div>
+            </section>
+            <section class="wide-field">
+                <label for="registerConfirm">Confirm Password *</label>
+                <div class="pw-box">
+                    <input type="password" id="registerConfirm" placeholder="Re-enter your password" autocomplete="new-password" required>
+                    <button type="button" class="pw-toggle" data-target="registerConfirm">Show</button>
+                </div>
+            </section>
+            <section class="wide-field">
+                <label>Date of Birth *</label>
+                <section class="registration-grid">
+                    <section>
+                        <label for="birthDay">Day</label>
+                        <select id="birthDay" name="birthDay" required>
+                            <option value="">Day</option>
+                        </select>
+                    </section>
+                    <section>
+                        <label for="birthMonth">Month</label>
+                        <select id="birthMonth" name="birthMonth" required>
+                            <option value="">Month</option>
+                            <option value="1">January</option><option value="2">February</option>
+                            <option value="3">March</option><option value="4">April</option>
+                            <option value="5">May</option><option value="6">June</option>
+                            <option value="7">July</option><option value="8">August</option>
+                            <option value="9">September</option><option value="10">October</option>
+                            <option value="11">November</option><option value="12">December</option>
+                        </select>
+                    </section>
+                    <section class="wide-field">
+                        <label for="birthYear">Year</label>
+                        <select id="birthYear" name="birthYear" required>
+                            <option value="">Year</option>
+                        </select>
+                    </section>
+                </section>
+                <div class="age-display" id="ageDisplay"></div>
+            </section>
+            <section class="wide-field">
+                <label for="registerGender">Gender *</label>
+                <select id="registerGender" name="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other / Prefer not to say</option>
+                </select>
+            </section>
+            <section class="wide-field">
+                <label for="registerAddress">Address *</label>
+                <textarea id="registerAddress" name="address" rows="3" maxlength="300" placeholder="Enter your complete address" autocomplete="street-address" required></textarea>
+            </section>
+        </section>
+        <button type="submit" class="btn green-btn full-button" id="registerBtn">Register</button>
+        <p id="registerNotice" class="notice" aria-live="polite"></p>
+    </form>
+</dialog>
+
+<dialog id="dashboardDialog" class="dialog wide">
+    <button type="button" id="closeDashboard" class="close-button" aria-label="Close dashboard">&times;</button>
+    <h2 id="dashboardTitle">My Dashboard</h2>
+    <p class="dialog-description" id="dashboardSub">Your account overview and request history.</p>
+    <div class="dashboard-body" id="dashboardBody"></div>
+</dialog>
+
+<script>
+/* ===== Core: storage, helpers, toast, validators (single namespace) ===== */
+(function () {
+    var S = window.Sunsun = window.Sunsun || {};
+    S.keys = {
+        customers: 'sunsun.customers',
+        employees: 'sunsun.employees',
+        session: 'sunsun.session',
+        quotes: 'sunsun.quotes',
+        messages: 'sunsun.messages',
+        draftQuote: 'sunsun.draft.quote',
+        draftContact: 'sunsun.draft.contact'
+    };
+    S.store = {
+        get: function (k, def) {
+            try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : def; }
+            catch (e) { return def; }
+        },
+        set: function (k, v) {
+            try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {}
+        },
+        remove: function (k) { try { localStorage.removeItem(k); } catch (e) {} }
+    };
+    // demo-grade hash (NOT secure; use real backend auth in production)
+    S.hash = function (s) {
+        var h = 5381;
+        for (var i = 0; i < s.length; i++) { h = ((h << 5) + h) ^ s.charCodeAt(i); }
+        return (h >>> 0).toString(36);
+    };
+    S.uid = function () { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); };
+    S.phpeso = function (n) { return '\u20B1' + Math.round(n).toLocaleString('en-PH'); };
+    S.escape = function (s) {
+        return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+    };
+    S.validators = {
+        email: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); },
+        phone: function (v) {
+            var d = String(v).replace(/\D/g, '');
+            return /^(09\d{9}|639\d{9}|9\d{9})$/.test(d);
+        },
+        required: function (v) { return String(v == null ? '' : v).trim().length > 0; }
+    };
+    S.setError = function (el, msg) {
+        if (!el) return;
+        el.classList.add('invalid');
+        var id = 'err_' + el.id;
+        var sp = document.getElementById(id);
+        if (!sp) {
+            sp = document.createElement('span');
+            sp.id = id; sp.className = 'field-error';
+            var ref = el.closest('.pw-box') || el;
+            if (ref.parentNode) ref.parentNode.insertBefore(sp, ref.nextSibling);
+        }
+        sp.textContent = msg;
+    };
+    S.clearError = function (el) {
+        if (!el) return;
+        el.classList.remove('invalid');
+        var sp = document.getElementById('err_' + el.id);
+        if (sp) sp.textContent = '';
+    };
+    S.toast = function (msg, type) {
+        var box = document.getElementById('toastContainer');
+        if (!box) return;
+        var t = document.createElement('div');
+        t.className = 'toast ' + (type || 'info');
+        t.textContent = msg;
+        box.appendChild(t);
+        setTimeout(function () {
+            t.style.transition = 'opacity .4s, transform .4s';
+            t.style.opacity = '0'; t.style.transform = 'translateX(40px)';
+            setTimeout(function () { if (t.parentNode) t.parentNode.removeChild(t); }, 400);
+        }, 4200);
+    };
+    // seed one demo employee if none exists
+    if (!S.store.get(S.keys.employees)) {
+        S.store.set(S.keys.employees, [{ id: 'EMP001', name: 'Site Administrator', password: S.hash('sunsun123') }]);
+    }
+})();
+</script>
+
+<script>
+/* ===== UI behaviors: menu, dialogs, tabs, scroll, reveal, count-up, FAQ, DOB, pw toggle, strength, char count ===== */
+(function () {
+    var S = window.Sunsun;
+
+    // --- mobile menu ---
+    var menuButton = document.getElementById('menuButton');
+    var navbar = document.getElementById('navbar');
+    menuButton.addEventListener('click', function () { navbar.classList.toggle('show'); });
+    navbar.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () { navbar.classList.remove('show'); });
+    });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') navbar.classList.remove('show');
+    });
+
+    // --- dialogs ---
+    var loginDialog = document.getElementById('loginDialog');
+    var registerDialog = document.getElementById('registerDialog');
+    var dashboardDialog = document.getElementById('dashboardDialog');
+    document.getElementById('openLogin').addEventListener('click', function () { loginDialog.showModal(); });
+    document.getElementById('closeLogin').addEventListener('click', function () { loginDialog.close(); });
+    // ---- connect to the standalone registration page (pulled from GitHub) ----
+    var REGISTRATION_URL = 'registration.html'; // <-- set this to your registration page filename/path
+    document.getElementById('openRegister').addEventListener('click', function () {
+        window.location.href = REGISTRATION_URL;
+    });
+    document.getElementById('closeRegister').addEventListener('click', function () { registerDialog.close(); });
+    document.getElementById('closeDashboard').addEventListener('click', function () { dashboardDialog.close(); });
+    [loginDialog, registerDialog, dashboardDialog].forEach(function (d) {
+        d.addEventListener('click', function (e) { if (e.target === d) d.close(); });
+    });
+
+    // --- login tabs ---
+    var tabs = document.querySelectorAll('.tab');
+    var customerLoginForm = document.getElementById('customerLoginForm');
+    var employeeLoginForm = document.getElementById('employeeLoginForm');
+    tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            tabs.forEach(function (i) { i.classList.remove('active'); });
+            tab.classList.add('active');
+            var cust = tab.dataset.tab === 'customer';
+            customerLoginForm.hidden = !cust;
+            employeeLoginForm.hidden = cust;
+            document.getElementById('customerLoginNotice').textContent = '';
+            document.getElementById('employeeLoginNotice').textContent = '';
+        });
+    });
+
+    // --- year ---
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // --- DOB dropdowns + age ---
+    var birthDay = document.getElementById('birthDay');
+    var birthMonth = document.getElementById('birthMonth');
+    var birthYear = document.getElementById('birthYear');
+    var ageDisplay = document.getElementById('ageDisplay');
+    var thisYear = new Date().getFullYear();
+    for (var d = 1; d <= 31; d++) {
+        var o = document.createElement('option'); o.value = d; o.textContent = d; birthDay.appendChild(o);
+    }
+    for (var y = thisYear; y >= 1940; y--) {
+        var oy = document.createElement('option'); oy.value = y; oy.textContent = y; birthYear.appendChild(oy);
+    }
+    S.dobAge = function () {
+        var dv = Number(birthDay.value), mv = Number(birthMonth.value), yv = Number(birthYear.value);
+        if (!dv || !mv || !yv) { ageDisplay.textContent = ''; ageDisplay.classList.remove('bad'); return null; }
+        var sel = new Date(yv, mv - 1, dv);
+        if (sel.getFullYear() !== yv || sel.getMonth() !== mv - 1 || sel.getDate() !== dv) {
+            ageDisplay.textContent = 'That date does not exist.'; ageDisplay.classList.add('bad'); return null;
+        }
+        if (sel > new Date()) { ageDisplay.textContent = 'Date of birth cannot be in the future.'; ageDisplay.classList.add('bad'); return null; }
+        var now = new Date();
+        var age = now.getFullYear() - yv - (now.getMonth() + 1 < mv || (now.getMonth() + 1 === mv && now.getDate() < dv) ? 1 : 0);
+        ageDisplay.textContent = 'Age: ' + age + ' years old' + (age < 18 ? ' — you must be at least 18 to register.' : '');
+        ageDisplay.classList.toggle('bad', age < 18);
+        return age;
+    };
+    [birthDay, birthMonth, birthYear].forEach(function (el) { el.addEventListener('change', S.dobAge); });
+
+    // --- password visibility toggles ---
+    document.querySelectorAll('.pw-toggle').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var input = document.getElementById(btn.dataset.target);
+            if (!input) return;
+            var show = input.type === 'password';
+            input.type = show ? 'text' : 'password';
+            btn.textContent = show ? 'Hide' : 'Show';
+        });
+    });
+
+    // --- password strength meter ---
+    var pwInput = document.getElementById('registerPassword');
+    var pwFill = document.getElementById('pwFill');
+    var pwLabel = document.getElementById('pwLabel');
+    pwInput.addEventListener('input', function () {
+        var v = pwInput.value;
+        var score = 0;
+        if (v.length >= 8) score++;
+        if (v.length >= 12) score++;
+        if (/[a-z]/.test(v) && /[A-Z]/.test(v)) score++;
+        if (/\d/.test(v)) score++;
+        if (/[^A-Za-z0-9]/.test(v)) score++;
+        var levels = [
+            { w: '0%', c: '#e0e0e0', t: '' },
+            { w: '20%', c: '#c0392b', t: 'Weak' },
+            { w: '40%', c: '#e67e22', t: 'Fair' },
+            { w: '60%', c: '#e0a600', t: 'Good' },
+            { w: '80%', c: '#27ae60', t: 'Strong' },
+            { w: '100%', c: '#1e8449', t: 'Very strong' }
+        ];
+        var lv = levels[Math.min(score, 5)];
+        pwFill.style.width = lv.w; pwFill.style.background = lv.c;
+        pwLabel.textContent = v ? 'Password strength: ' + lv.t : '';
+        // live re-check confirm match
+        var cf = document.getElementById('registerConfirm');
+        if (cf.value) {
+            if (cf.value !== v) S.setError(cf, 'Passwords do not match.');
+            else S.clearError(cf);
+        }
+    });
+
+    // --- character counters ---
+    document.querySelectorAll('.char-count').forEach(function (c) {
+        var ta = document.getElementById(c.dataset.for);
+        if (!ta) return;
+        var max = Number(ta.getAttribute('maxlength')) || 500;
+        var update = function () {
+            var n = ta.value.length;
+            c.textContent = n + ' / ' + max;
+            c.classList.toggle('over', n > max);
+        };
+        ta.addEventListener('input', update);
+        update();
+    });
+
+    // --- scroll: sticky header, back-to-top, scrollspy ---
+    var header = document.getElementById('siteHeader');
+    var btt = document.getElementById('backToTop');
+    var navLinks = navbar.querySelectorAll('a[href^="#"]');
+    var sections = ['home', 'services', 'about', 'testimonials', 'faq', 'contact']
+        .map(function (id) { return document.getElementById(id); })
+        .filter(Boolean);
+    function onScroll() {
+        var y = window.scrollY;
+        header.classList.toggle('scrolled', y > 10);
+        btt.classList.toggle('show', y > 400);
+        // scrollspy
+        var current = sections[0] ? sections[0].id : '';
+        for (var i = 0; i < sections.length; i++) {
+            if (sections[i].getBoundingClientRect().top <= 120) current = sections[i].id;
+        }
+        navLinks.forEach(function (a) {
+            a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+        });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    btt.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+    // --- reveal on scroll ---
+    var revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+        var ro = new IntersectionObserver(function (entries) {
+            entries.forEach(function (en, i) {
+                if (en.isIntersecting) {
+                    en.target.style.transitionDelay = (i % 3) * 80 + 'ms';
+                    en.target.classList.add('visible');
+                    ro.unobserve(en.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        revealEls.forEach(function (el) { ro.observe(el); });
+    } else {
+        revealEls.forEach(function (el) { el.classList.add('visible'); });
+    }
+    // safety fallback: guarantee everything is visible after 2.5s even if observer timing is off
+    setTimeout(function () { revealEls.forEach(function (el) { el.classList.add('visible'); }); }, 2500);
+
+    // --- count-up stats ---
+    function animateCount(el) {
+        var target = parseFloat(el.dataset.target) || 0;
+        var dec = parseInt(el.dataset.decimal || '0', 10);
+        var suffix = el.dataset.suffix || '';
+        var dur = 1600, start = performance.now();
+        function frame(now) {
+            var p = Math.min(1, (now - start) / dur);
+            var eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = (target * eased).toFixed(dec) + suffix;
+            if (p < 1) requestAnimationFrame(frame);
+            else el.textContent = target.toFixed(dec) + suffix;
+        }
+        requestAnimationFrame(frame);
+    }
+    var statEls = document.querySelectorAll('.stat-number');
+    if ('IntersectionObserver' in window) {
+        var so = new IntersectionObserver(function (entries) {
+            entries.forEach(function (en) {
+                if (en.isIntersecting) { animateCount(en.target); so.unobserve(en.target); }
+            });
+        }, { threshold: 0.5 });
+        statEls.forEach(function (el) { so.observe(el); });
+    } else {
+        statEls.forEach(animateCount);
+    }
+
+    // --- FAQ accordion: only one open at a time ---
+    document.querySelectorAll('.faq-list details').forEach(function (d) {
+        d.addEventListener('toggle', function () {
+            if (d.open) {
+                document.querySelectorAll('.faq-list details').forEach(function (o) {
+                    if (o !== d) o.open = false;
+                });
+            }
+        });
+    });
+})();
+</script>
+
+<script>
+/* ===== Auth: session, register, login, logout, dashboard ===== */
+(function () {
+    var S = window.Sunsun;
+
+    S.getSession = function () {
+        try {
+            var s = sessionStorage.getItem(S.keys.session);
+            if (s) return JSON.parse(s);
+        } catch (e) {}
+        try {
+            var l = localStorage.getItem(S.keys.session);
+            if (l) {
+                var o = JSON.parse(l);
+                if (o.expiresAt && o.expiresAt < Date.now()) { S.store.remove(S.keys.session); return null; }
+                return o;
+            }
+        } catch (e) {}
+        return null;
+    };
+    S.setSession = function (obj, remember) {
+        var payload = {
+            type: obj.type, id: obj.id, name: obj.name, email: obj.email || '',
+            loginAt: Date.now(), expiresAt: remember ? Date.now() + 7 * 864e5 : null
+        };
+        if (remember) { localStorage.setItem(S.keys.session, JSON.stringify(payload)); sessionStorage.removeItem(S.keys.session); }
+        else { sessionStorage.setItem(S.keys.session, JSON.stringify(payload)); S.store.remove(S.keys.session); }
+    };
+    S.clearSession = function () {
+        try { sessionStorage.removeItem(S.keys.session); } catch (e) {}
+        S.store.remove(S.keys.session);
+    };
+    S.findCustomer = function (emailOrUser) {
+        var q = String(emailOrUser || '').trim().toLowerCase();
+        var list = S.store.get(S.keys.customers, []);
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].email.toLowerCase() === q || list[i].username.toLowerCase() === q) return list[i];
+        }
+        return null;
+    };
+
+    function renderHeader() {
+        var s = S.getSession();
+        var openLogin = document.getElementById('openLogin');
+        var chip = document.getElementById('userChip');
+        if (s) {
+            openLogin.hidden = true; chip.hidden = false;
+            document.getElementById('userChipName').textContent = s.name;
+            document.getElementById('userChipRole').textContent = s.type === 'employee' ? 'Employee' : 'Customer';
+        } else {
+            openLogin.hidden = false; chip.hidden = true;
+        }
+    }
+
+    function historyItem(title, sub, detail, ts) {
+        return '<div class="history-item"><div><b>' + S.escape(title) + '</b></div>' +
+            (sub ? '<div class="sub">' + S.escape(sub) + '</div>' : '') +
+            (detail ? '<div class="sub">' + S.escape(detail) + '</div>' : '') +
+            '<div class="meta">' + new Date(ts).toLocaleString() + '</div></div>';
+    }
+
+    function renderDashboard() {
+        var s = S.getSession();
+        if (!s) return;
+        var body = document.getElementById('dashboardBody');
+        var title = document.getElementById('dashboardTitle');
+        var sub = document.getElementById('dashboardSub');
+        var html = '';
+        if (s.type === 'employee') {
+            title.textContent = 'Employee Dashboard';
+            sub.textContent = 'Company-wide overview of customer requests.';
+            var quotes = S.store.get(S.keys.quotes, []);
+            var msgs = S.store.get(S.keys.messages, []);
+            html += '<h3>Overview</h3><div class="profile-grid">' +
+                '<span><b>Quote requests:</b> ' + quotes.length + '</span>' +
+                '<span><b>Contact messages:</b> ' + msgs.length + '</span>' +
+                '<span><b>Signed in as:</b> ' + S.escape(s.name) + '</span>' +
+                '<span><b>Role:</b> Employee (' + S.escape(s.id) + ')</span></div>';
+            html += '<h3>All Quote Requests (' + quotes.length + ')</h3>';
+            if (!quotes.length) html += '<div class="empty-state">No quote requests yet.</div>';
+            quotes.slice().reverse().forEach(function (q) {
+                html += historyItem(
+                    q.name + ' — ' + q.propertyType,
+                    q.email + ' · ' + q.phone,
+                    'Monthly bill ' + S.phpeso(q.monthlyBill || 0) + (q.estimate ? ' · Est. ' + S.phpeso(q.estimate.cost) + ' / ' + q.estimate.kwp.toFixed(1) + ' kWp' : ''),
+                    q.createdAt
+                );
+            });
+            html += '<h3>All Contact Messages (' + msgs.length + ')</h3>';
+            if (!msgs.length) html += '<div class="empty-state">No messages yet.</div>';
+            msgs.slice().reverse().forEach(function (m) {
+                html += historyItem(m.subject, m.name + ' · ' + m.email, (m.message || '').slice(0, 90), m.createdAt);
+            });
+        } else {
+            title.textContent = 'My Dashboard';
+            sub.textContent = 'Your profile and request history.';
+            var customers = S.store.get(S.keys.customers, []);
+            var c = null;
+            for (var i = 0; i < customers.length; i++) { if (customers[i].id === s.id) { c = customers[i]; break; } }
+            if (c) {
+                var fullName = c.firstName + (c.middleName ? ' ' + c.middleName : '') + ' ' + c.lastName;
+                html += '<h3>My Profile</h3><div class="profile-grid">' +
+                    '<span><b>Name:</b> ' + S.escape(fullName) + '</span>' +
+                    '<span><b>Username:</b> ' + S.escape(c.username) + '</span>' +
+                    '<span><b>Email:</b> ' + S.escape(c.email) + '</span>' +
+                    '<span><b>Phone:</b> ' + S.escape(c.phone) + '</span>' +
+                    '<span><b>Gender:</b> ' + S.escape(c.gender) + '</span>' +
+                    '<span><b>Member since:</b> ' + new Date(c.createdAt).toLocaleDateString() + '</span>' +
+                    '<span class="full"><b>Address:</b> ' + S.escape(c.address) + '</span></div>';
+            }
+            var myQuotes = S.store.get(S.keys.quotes, []).filter(function (q) { return q.userId === s.id; });
+            html += '<h3>My Quote Requests (' + myQuotes.length + ')</h3>';
+            if (!myQuotes.length) html += '<div class="empty-state">You have not requested a quote yet.</div>';
+            myQuotes.slice().reverse().forEach(function (q) {
+                html += historyItem(
+                    q.propertyType,
+                    'Monthly bill ' + S.phpeso(q.monthlyBill || 0),
+                    q.estimate ? 'Est. ' + q.estimate.kwp.toFixed(1) + ' kWp · ' + S.phpeso(q.estimate.cost) + ' · saves ' + S.phpeso(q.estimate.monthlySavings) + '/mo' : '',
+                    q.createdAt
+                );
+            });
+            var myMsgs = S.store.get(S.keys.messages, []).filter(function (m) { return m.userId === s.id; });
+            html += '<h3>My Messages (' + myMsgs.length + ')</h3>';
+            if (!myMsgs.length) html += '<div class="empty-state">No messages sent yet.</div>';
+            myMsgs.slice().reverse().forEach(function (m) {
+                html += historyItem(m.subject, m.email, (m.message || '').slice(0, 90), m.createdAt);
+            });
+        }
+        body.innerHTML = html;
+    }
+
+    document.getElementById('openDashboard').addEventListener('click', function () {
+        renderDashboard();
+        document.getElementById('dashboardDialog').showModal();
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', function () {
+        S.clearSession();
+        renderHeader();
+        S.toast('You have been logged out.', 'info');
+    });
+
+    // ---- registration ----
+    document.getElementById('registerForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var ok = true;
+        var firstName = document.getElementById('registerFirstName');
+        var lastName = document.getElementById('registerLastName');
+        var email = document.getElementById('registerEmail');
+        var phone = document.getElementById('registerPhone');
+        var username = document.getElementById('registerUsername');
+        var password = document.getElementById('registerPassword');
+        var confirm = document.getElementById('registerConfirm');
+        var gender = document.getElementById('registerGender');
+        var address = document.getElementById('registerAddress');
+        var notice = document.getElementById('registerNotice');
+        notice.textContent = '';
+
+        [firstName, lastName, email, phone, username, password, confirm, gender, address].forEach(S.clearError);
+
+        if (!S.validators.required(firstName.value)) { S.setError(firstName, 'First name is required.'); ok = false; }
+        if (!S.validators.required(lastName.value)) { S.setError(lastName, 'Last name is required.'); ok = false; }
+        if (!S.validators.email(email.value)) { S.setError(email, 'Enter a valid email address.'); ok = false; }
+        if (!S.validators.phone(phone.value)) { S.setError(phone, 'Enter a valid PH phone number (e.g. 0917 123 4567).'); ok = false; }
+        if (username.value.trim().length < 3) { S.setError(username, 'Username must be at least 3 characters.'); ok = false; }
+        if (password.value.length < 8) { S.setError(password, 'Password must be at least 8 characters.'); ok = false; }
+        if (confirm.value !== password.value) { S.setError(confirm, 'Passwords do not match.'); ok = false; }
+        if (!gender.value) { S.setError(gender, 'Please select a gender.'); ok = false; }
+        if (!S.validators.required(address.value)) { S.setError(address, 'Address is required.'); ok = false; }
+
+        var age = S.dobAge();
+        if (age === null) { S.setError(document.getElementById('birthYear'), 'Please select a valid date of birth.'); ok = false; }
+        else if (age < 18) { S.setError(document.getElementById('birthYear'), 'You must be at least 18 years old.'); ok = false; }
+
+        // duplicate check
+        if (ok && S.findCustomer(email.value)) { S.setError(email, 'An account with this email already exists.'); ok = false; }
+        if (ok) {
+            var list = S.store.get(S.keys.customers, []);
+            var uname = username.value.trim().toLowerCase();
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].username.toLowerCase() === uname) { S.setError(username, 'This username is already taken.'); ok = false; break; }
+            }
+        }
+
+        if (!ok) {
+            notice.textContent = 'Please fix the highlighted fields.';
+            S.toast('Please fix the highlighted fields.', 'error');
+            return;
+        }
+
+        var btn = document.getElementById('registerBtn');
+        btn.classList.add('loading');
+        setTimeout(function () {
+            var customers = S.store.get(S.keys.customers, []);
+            var newCust = {
+                id: S.uid(),
+                firstName: firstName.value.trim(),
+                middleName: document.getElementById('registerMiddleName').value.trim(),
+                lastName: lastName.value.trim(),
+                email: email.value.trim(),
+                phone: phone.value.trim(),
+                username: username.value.trim(),
+                password: S.hash(password.value),
+                birthDay: Number(document.getElementById('birthDay').value),
+                birthMonth: Number(document.getElementById('birthMonth').value),
+                birthYear: Number(document.getElementById('birthYear').value),
+                gender: gender.value,
+                address: address.value.trim(),
+                createdAt: Date.now()
+            };
+            customers.push(newCust);
+            S.store.set(S.keys.customers, customers);
+            S.setSession({ type: 'customer', id: newCust.id, name: newCust.firstName + ' ' + newCust.lastName, email: newCust.email }, false);
+            btn.classList.remove('loading');
+            registerDialog.close();
+            document.getElementById('registerForm').reset();
+            document.getElementById('ageDisplay').textContent = '';
+            renderHeader();
+            S.toast('Account created! Welcome, ' + newCust.firstName + '.', 'success');
+            renderDashboard();
+            document.getElementById('dashboardDialog').showModal();
+        }, 900);
+    });
+
+    // ---- customer login ----
+    document.getElementById('customerLoginForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var emailEl = document.getElementById('customerEmail');
+        var pwEl = document.getElementById('customerPassword');
+        var notice = document.getElementById('customerLoginNotice');
+        var btn = document.getElementById('customerLoginBtn');
+        S.clearError(emailEl); S.clearError(pwEl); notice.textContent = '';
+        var cust = S.findCustomer(emailEl.value);
+        // legacy fallback: the standalone registration page (GitHub) may have saved
+        // a single record under 'sunsonRegistration' with a plain-text password.
+        // If we find a match there, auto-migrate it into the shared account store.
+        if (!cust) {
+            try {
+                var legacy = JSON.parse(localStorage.getItem('sunsonRegistration'));
+                if (legacy) {
+                    var q = String(emailEl.value).trim().toLowerCase();
+                    var lEmail = String(legacy.email || '').toLowerCase();
+                    var lUser = String(legacy.username || '').toLowerCase();
+                    if ((lEmail === q || lUser === q) && legacy.password === pwEl.value) {
+                        var customers = S.store.get(S.keys.customers, []);
+                        var dob = legacy.dateOfBirth || {};
+                        cust = {
+                            id: S.uid(),
+                            firstName: legacy.firstName || '',
+                            middleName: legacy.middleName || '',
+                            lastName: legacy.lastName || '',
+                            email: legacy.email || '',
+                            phone: legacy.phoneNumber || '',
+                            username: legacy.username || '',
+                            password: S.hash(legacy.password),
+                            birthDay: Number(dob.day) || 1,
+                            birthMonth: Number(dob.month) || 1,
+                            birthYear: Number(dob.year) || 1990,
+                            gender: legacy.gender || 'Other',
+                            address: legacy.address || '',
+                            createdAt: Date.now()
+                        };
+                        customers.push(cust);
+                        S.store.set(S.keys.customers, customers);
+                        S.toast('Your account was imported from the registration page.', 'info');
+                    }
+                }
+            } catch (e) {}
+        }
+        if (!cust) { S.setError(emailEl, 'No account found with this email/username.'); S.toast('No account found. Please sign up first.', 'error'); return; }
+        if (cust.password !== S.hash(pwEl.value)) { S.setError(pwEl, 'Incorrect password.'); S.toast('Incorrect password.', 'error'); return; }
+        btn.classList.add('loading');
+        setTimeout(function () {
+            var remember = document.getElementById('customerRemember').checked;
+            S.setSession({ type: 'customer', id: cust.id, name: cust.firstName + ' ' + cust.lastName, email: cust.email }, remember);
+            btn.classList.remove('loading');
+            loginDialog.close();
+            document.getElementById('customerLoginForm').reset();
+            renderHeader();
+            S.toast('Welcome back, ' + cust.firstName + '!', 'success');
+        }, 700);
+    });
+
+    // ---- employee login ----
+    document.getElementById('employeeLoginForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var idEl = document.getElementById('employeeId');
+        var pwEl = document.getElementById('employeePassword');
+        var notice = document.getElementById('employeeLoginNotice');
+        var btn = document.getElementById('employeeLoginBtn');
+        S.clearError(idEl); S.clearError(pwEl); notice.textContent = '';
+        var emps = S.store.get(S.keys.employees, []);
+        var emp = null;
+        for (var i = 0; i < emps.length; i++) { if (emps[i].id.toUpperCase() === String(idEl.value).trim().toUpperCase()) { emp = emps[i]; break; } }
+        if (!emp) { S.setError(idEl, 'Employee ID not found.'); S.toast('Employee ID not found.', 'error'); return; }
+        if (emp.password !== S.hash(pwEl.value)) { S.setError(pwEl, 'Incorrect password.'); S.toast('Incorrect password.', 'error'); return; }
+        btn.classList.add('loading');
+        setTimeout(function () {
+            var remember = document.getElementById('employeeRemember').checked;
+            S.setSession({ type: 'employee', id: emp.id, name: emp.name }, remember);
+            btn.classList.remove('loading');
+            loginDialog.close();
+            document.getElementById('employeeLoginForm').reset();
+            renderHeader();
+            S.toast('Employee login successful.', 'success');
+            renderDashboard();
+            document.getElementById('dashboardDialog').showModal();
+        }, 700);
+    });
+
+    // ---- session inactivity timeout (30 min) ----
+    var lastActivity = Date.now();
+    ['mousemove', 'keydown', 'click', 'scroll'].forEach(function (ev) {
+        window.addEventListener(ev, function () { lastActivity = Date.now(); }, { passive: true });
+    });
+    setInterval(function () {
+        if (S.getSession() && Date.now() - lastActivity > 30 * 60 * 1000) {
+            S.clearSession();
+            renderHeader();
+            S.toast('You were logged out due to 30 minutes of inactivity.', 'info');
+        }
+    }, 15000);
+
+    // expose for forms module
+    S.renderHeader = renderHeader;
+    renderHeader();
+})();
+</script>
+
+<script>
+/* ===== Forms: quote calculator + history, contact + drafts, prefill when logged in ===== */
+(function () {
+    var S = window.Sunsun;
+
+    // prefill quote/contact from logged-in customer
+    function prefillIfLoggedIn() {
+        var s = S.getSession();
+        if (!s || s.type !== 'customer') return;
+        var customers = S.store.get(S.keys.customers, []);
+        var c = null;
+        for (var i = 0; i < customers.length; i++) { if (customers[i].id === s.id) { c = customers[i]; break; } }
+        if (!c) return;
+        var full = c.firstName + ' ' + c.lastName;
+        ['quoteName', 'contactName'].forEach(function (id) { var el = document.getElementById(id); if (el && !el.value) el.value = full; });
+        ['quoteEmail', 'contactEmail'].forEach(function (id) { var el = document.getElementById(id); if (el && !el.value) el.value = c.email; });
+        var qp = document.getElementById('quotePhone'); if (qp && !qp.value) qp.value = c.phone;
+    }
+
+    // ---- live quote estimate ----
+    var estimateResult = document.getElementById('estimateResult');
+    function computeEstimate() {
+        var bill = parseFloat(document.getElementById('monthlyBill').value) || 0;
+        var sun = parseFloat(document.getElementById('sunlightHours').value) || 0;
+        var roof = document.getElementById('roofType').value;
+        if (bill <= 0 || sun <= 0) { estimateResult.classList.remove('show'); return null; }
+        var rate = 11, derate = 0.8, costPerKwp = 75000;
+        var monthlyKwh = bill / rate;
+        var kwp = Math.max(0.5, (monthlyKwh / 30) / (sun * derate));
+        var roofFactor = roof === 'metal' ? 0.95 : roof === 'clay' ? 1.05 : 1.0;
+        var cost = kwp * costPerKwp * roofFactor;
+        var monthlyGen = kwp * sun * 30 * derate;
+        var used = Math.min(monthlyGen, monthlyKwh);
+        var savings = used * rate;
+        var offset = monthlyKwh > 0 ? Math.min(100, Math.round(used / monthlyKwh * 100)) : 0;
+        var payback = savings > 0 ? cost / (savings * 12) : Infinity;
+        var est = { kwp: kwp, cost: cost, monthlySavings: savings, payback: payback, offset: offset };
+        estimateResult.innerHTML =
+            '<h4>Rough System Estimate <small>(demo figures)</small></h4>' +
+            '<div class="estimate-grid">' +
+            '<div class="estimate-item"><div class="v">' + kwp.toFixed(1) + ' kWp</div><div class="l">Recommended system size</div></div>' +
+            '<div class="estimate-item"><div class="v">' + S.phpeso(cost) + '</div><div class="l">Estimated installed cost</div></div>' +
+            '<div class="estimate-item"><div class="v">' + S.phpeso(savings) + '</div><div class="l">Est. monthly savings</div></div>' +
+            '<div class="estimate-item"><div class="v">' + offset + '%</div><div class="l">Bill offset</div></div>' +
+            '<div class="estimate-item"><div class="v">' + (isFinite(payback) ? payback.toFixed(1) + ' yrs' : '&mdash;') + '</div><div class="l">Simple payback</div></div>' +
+            '</div>' +
+            '<p class="estimate-note">Assumes ~&#8369;11/kWh, 80% system derate, &#8369;75,000/kWp installed. For illustration only — a real quote requires a site survey.</p>';
+        estimateResult.classList.add('show');
+        return est;
+    }
+    ['monthlyBill', 'sunlightHours', 'roofType'].forEach(function (id) {
+        document.getElementById(id).addEventListener('input', computeEstimate);
+        document.getElementById(id).addEventListener('change', computeEstimate);
+    });
+
+    // ---- draft autosave / restore helpers ----
+    function saveDraft(key, fields) {
+        var data = {};
+        fields.forEach(function (f) { var el = document.getElementById(f); if (el) data[f] = el.value; });
+        S.store.set(key, data);
+    }
+    function restoreDraft(key, fields) {
+        var data = S.store.get(key, null);
+        if (!data) return;
+        fields.forEach(function (f) { if (data[f] != null) { var el = document.getElementById(f); if (el) el.value = data[f]; } });
+    }
+
+    var quoteFields = ['quoteName', 'quoteEmail', 'quotePhone', 'propertyType', 'monthlyBill', 'sunlightHours', 'roofType', 'quoteMessage'];
+    var contactFields = ['contactName', 'contactEmail', 'contactSubject', 'contactMessage'];
+
+    // ---- quote form ----
+    restoreDraft(S.keys.draftQuote, quoteFields);
+    prefillIfLoggedIn();
+    computeEstimate();
+    quoteFields.forEach(function (f) {
+        var el = document.getElementById(f);
+        if (el) el.addEventListener('input', function () { saveDraft(S.keys.draftQuote, quoteFields); });
+    });
+    document.getElementById('quoteForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var ok = true;
+        var name = document.getElementById('quoteName');
+        var email = document.getElementById('quoteEmail');
+        var phone = document.getElementById('quotePhone');
+        var prop = document.getElementById('propertyType');
+        [name, email, phone, prop].forEach(S.clearError);
+        if (!S.validators.required(name.value)) { S.setError(name, 'Name is required.'); ok = false; }
+        if (!S.validators.email(email.value)) { S.setError(email, 'Enter a valid email.'); ok = false; }
+        if (!S.validators.phone(phone.value)) { S.setError(phone, 'Enter a valid phone number.'); ok = false; }
+        if (!prop.value) { S.setError(prop, 'Select a property type.'); ok = false; }
+        if (!ok) { S.toast('Please fix the highlighted fields.', 'error'); return; }
+
+        var btn = document.getElementById('quoteSubmit');
+        var notice = document.getElementById('quoteNotice');
+        btn.classList.add('loading');
+        setTimeout(function () {
+            var s = S.getSession();
+            var est = computeEstimate();
+            var quotes = S.store.get(S.keys.quotes, []);
+            quotes.push({
+                id: S.uid(),
+                userId: s && s.type === 'customer' ? s.id : null,
+                name: name.value.trim(),
+                email: email.value.trim(),
+                phone: phone.value.trim(),
+                propertyType: prop.value,
+                monthlyBill: parseFloat(document.getElementById('monthlyBill').value) || 0,
+                sunlightHours: parseFloat(document.getElementById('sunlightHours').value) || 0,
+                roofType: document.getElementById('roofType').value,
+                message: document.getElementById('quoteMessage').value,
+                estimate: est,
+                createdAt: Date.now()
+            });
+            S.store.set(S.keys.quotes, quotes);
+            S.store.remove(S.keys.draftQuote);
+            btn.classList.remove('loading');
+            notice.textContent = 'Quote request saved' + (s && s.type === 'customer' ? ' — view it in your Dashboard.' : ' (stored locally in this demo).');
+            S.toast('Quote request submitted!', 'success');
+            document.getElementById('quoteForm').reset();
+            document.getElementById('sunlightHours').value = '5';
+            estimateResult.classList.remove('show');
+            prefillIfLoggedIn();
+        }, 900);
+    });
+
+    // ---- contact form ----
+    restoreDraft(S.keys.draftContact, contactFields);
+    contactFields.forEach(function (f) {
+        var el = document.getElementById(f);
+        if (el) el.addEventListener('input', function () { saveDraft(S.keys.draftContact, contactFields); });
+    });
+    document.getElementById('contactForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var ok = true;
+        var name = document.getElementById('contactName');
+        var email = document.getElementById('contactEmail');
+        var subject = document.getElementById('contactSubject');
+        var message = document.getElementById('contactMessage');
+        [name, email, subject, message].forEach(S.clearError);
+        if (!S.validators.required(name.value)) { S.setError(name, 'Name is required.'); ok = false; }
+        if (!S.validators.email(email.value)) { S.setError(email, 'Enter a valid email.'); ok = false; }
+        if (!S.validators.required(subject.value)) { S.setError(subject, 'Subject is required.'); ok = false; }
+        if (!S.validators.required(message.value)) { S.setError(message, 'Message is required.'); ok = false; }
+        if (!ok) { S.toast('Please fix the highlighted fields.', 'error'); return; }
+
+        var btn = document.getElementById('contactSubmit');
+        var notice = document.getElementById('contactNotice');
+        btn.classList.add('loading');
+        setTimeout(function () {
+            var s = S.getSession();
+            var msgs = S.store.get(S.keys.messages, []);
+            msgs.push({
+                id: S.uid(),
+                userId: s && s.type === 'customer' ? s.id : null,
+                name: name.value.trim(),
+                email: email.value.trim(),
+                subject: subject.value.trim(),
+                message: message.value,
+                createdAt: Date.now()
+            });
+            S.store.set(S.keys.messages, msgs);
+            S.store.remove(S.keys.draftContact);
+            btn.classList.remove('loading');
+            notice.textContent = 'Message saved' + (s && s.type === 'customer' ? ' — view it in your Dashboard.' : ' (stored locally in this demo).');
+            S.toast('Message sent!', 'success');
+            document.getElementById('contactForm').reset();
+            prefillIfLoggedIn();
+        }, 900);
+    });
+})();
+</script>
+</body>
+</html>
